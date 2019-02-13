@@ -18,7 +18,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 public class RemoteConfigModule extends ReactContextBaseJavaModule {
 
-    public static final String TAG = "RemoteConfigModule";
+    public static final String NAME = "RemoteConfig";
     public static final String ERROR = "REMOTE_CONFIG_ERROR";
     public static final String FETCH_SUCCEED = "REMOTE_CONFIG_FETCH_SUCCEED";
     public static final String FETCH_FAILED = "REMOTE_CONFIG_FETCH_FAILED";
@@ -36,9 +36,7 @@ public class RemoteConfigModule extends ReactContextBaseJavaModule {
     }
 
     @Override
-    public String getName() {
-        return TAG;
-    }
+    public String getName() { return NAME; }
 
     @ReactMethod
     public void setDefaults(ReadableMap defaults){
