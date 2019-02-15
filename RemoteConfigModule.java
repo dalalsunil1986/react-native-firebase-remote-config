@@ -5,7 +5,7 @@ package com.sayurbox.bridge.remoteconfig;
  */
 
 import android.support.annotation.NonNull;
-import com.facebook.react.BuildConfig;
+import android.util.Log;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -19,20 +19,17 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 public class RemoteConfigModule extends ReactContextBaseJavaModule {
 
     private static final String NAME = "RemoteConfig";
-    public static final String ERROR = "REMOTE_CONFIG_ERROR";
+    public static final String FETCH_ERROR = "REMOTE_CONFIG_ERROR";
     public static final String FETCH_SUCCEED = "REMOTE_CONFIG_FETCH_SUCCEED";
     public static final String FETCH_FAILED = "REMOTE_CONFIG_FETCH_FAILED";
 
     private ReactApplicationContext reactContext;
     private FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-    private FirebaseRemoteConfigSettings mConfigSettings = new FirebaseRemoteConfigSettings.Builder()
-            .setDeveloperModeEnabled(BuildConfig.DEBUG)
-            .build();
 
     public RemoteConfigModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        mFirebaseRemoteConfig.setConfigSettings(mConfigSettings);
+        mFirebaseRemoteConfig.setConfigSettings(new FirebaseRemoteConfigSettings.Builder().build());
     }
 
     @Override
@@ -44,37 +41,60 @@ public class RemoteConfigModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void setDebugModeOn(){
+        mFirebaseRemoteConfig.setConfigSettings(new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(true)
+                .build());
+    }
+
+    @ReactMethod
     public void fetch(Integer chacheExpiration, final Promise promise){
         if(this.reactContext.getCurrentActivity() != null){
-            mFirebaseRemoteConfig.fetch(chacheExpiration.longValue())
-                .addOnCompleteListener(this.reactContext.getCurrentActivity(), new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        mFirebaseRemoteConfig.activateFetched();
-                        promise.resolve(FETCH_SUCCEED);
-                    }else{
-                        promise.resolve(FETCH_FAILED);
-                    }
-                }
-            });
+            mFirebaseRemoteConfig.fetch(chacheExpiration)
+                    .addOnCompleteListener(this.reactContext.getCurrentActivity(), new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                mFirebaseRemoteConfig.activateFetched();
+                                promise.resolve(FETCH_SUCCEED);
+                                Log.e(NAME, FETCH_SUCCEED);
+                            }else{
+                                promise.reject(FETCH_FAILED, "Task failed.");
+                            }
+                        }
+                    });
         }else{
-            promise.reject(ERROR, "Activity doesn't exists.");
+            promise.reject(FETCH_ERROR, "Activity doesn't exists.");
         }
     }
 
     @ReactMethod
-    public Boolean getBoolean(String key){
-        return mFirebaseRemoteConfig.getBoolean(key);
+    public void getBoolean(String key, final Promise promise){
+        try{
+            Boolean result = mFirebaseRemoteConfig.getBoolean(key);
+            promise.resolve(result);
+        }catch (Exception e){
+            promise.reject(e);
+        }
     }
 
     @ReactMethod
-    public String getString(String key){
-        return mFirebaseRemoteConfig.getString(key);
+    public void getString(String key, final Promise promise){
+        try{
+            String result = mFirebaseRemoteConfig.getString(key);
+            promise.resolve(result);
+        }catch (Exception e){
+            promise.reject(e);
+        }
     }
 
     @ReactMethod
-    public Double getDouble(String key){
-        return mFirebaseRemoteConfig.getDouble(key);
+    public void getDouble(String key, final Promise promise){
+        try{
+            Double result = mFirebaseRemoteConfig.getDouble(key);
+            promise.resolve(result);
+        }catch (Exception e){
+            promise.reject(e);
+        }
     }
 }
