@@ -1,4 +1,4 @@
-package com.sayurbox.bridge.remoteconfig;
+package com.galihlprakoso.bridge.remoteconfig;
 
 /*
     @author Galih Laras Prakoso | Github : galihlprakoso
