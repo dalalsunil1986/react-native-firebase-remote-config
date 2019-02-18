@@ -1,4 +1,4 @@
-package com.sayurbox.bridge.remoteconfig;
+package com.galihlprakoso.bridge.remoteconfig;
 
 /*
     @author Galih Laras Prakoso | Github : galihlprakoso
@@ -10,9 +10,9 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 
-public class RNSboxRemoteConfigModule extends ReactContextBaseJavaModule {
+public class RemoteConfigModule extends ReactContextBaseJavaModule {
 
-    private static final String NAME = "RNSboxRemoteConfigModule";
+    private static final String NAME = "RemoteConfig";
 
     public static final String FETCH_ERROR = "REMOTE_CONFIG_ERROR";
     public static final String FETCH_SUCCEED = "REMOTE_CONFIG_FETCH_SUCCEED";
@@ -20,9 +20,9 @@ public class RNSboxRemoteConfigModule extends ReactContextBaseJavaModule {
 
     private RemoteConfig remoteConfig;
 
-    public RNSboxRemoteConfigModule(ReactApplicationContext reactContext) {
+    public RemoteConfigModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        this.remoteConfig = new RNSboxRemoteConfig(reactContext);
+        this.remoteConfig = new RemoteConfig(reactContext);
     }
 
     @Override
