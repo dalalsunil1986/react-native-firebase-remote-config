@@ -14,7 +14,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
-class RemoteConfig implements RemoteConfig{
+class RemoteConfig implements RemoteConfigInterface{
 
     private static final String NAME = "RemoteConfig";
 
