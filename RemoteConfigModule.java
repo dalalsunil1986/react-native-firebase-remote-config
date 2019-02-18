@@ -18,7 +18,7 @@ public class RemoteConfigModule extends ReactContextBaseJavaModule {
     public static final String FETCH_SUCCEED = "REMOTE_CONFIG_FETCH_SUCCEED";
     public static final String FETCH_FAILED = "REMOTE_CONFIG_FETCH_FAILED";
 
-    private RemoteConfig remoteConfig;
+    private RemoteConfigInterface remoteConfig;
 
     public RemoteConfigModule(ReactApplicationContext reactContext) {
         super(reactContext);
