@@ -14,14 +14,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
-class RNSboxRemoteConfig implements RemoteConfig{
+class RemoteConfig implements RemoteConfig{
 
     private static final String NAME = "RemoteConfig";
 
     private ReactApplicationContext reactContext;
     private FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 
-    public RNSboxRemoteConfig(ReactApplicationContext reactContext) {
+    public RemoteConfig(ReactApplicationContext reactContext) {
         this.reactContext = reactContext;
         mFirebaseRemoteConfig.setConfigSettings(new FirebaseRemoteConfigSettings.Builder().build());
     }
@@ -44,15 +44,15 @@ class RNSboxRemoteConfig implements RemoteConfig{
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
                                 mFirebaseRemoteConfig.activateFetched();
-                                promise.resolve(RNSboxRemoteConfigModule.FETCH_SUCCEED);
-                                Log.e(NAME, RNSboxRemoteConfigModule.FETCH_SUCCEED);
+                                promise.resolve(RemoteConfigModule.FETCH_SUCCEED);
+                                Log.e(NAME, RemoteConfigModule.FETCH_SUCCEED);
                             }else{
-                                promise.reject(RNSboxRemoteConfigModule.FETCH_FAILED, "Task failed.");
+                                promise.reject(RemoteConfigModule.FETCH_FAILED, "Task failed.");
                             }
                         }
                     });
         }else{
-            promise.reject(RNSboxRemoteConfigModule.FETCH_ERROR, "Activity doesn't exists.");
+            promise.reject(RemoteConfigModule.FETCH_ERROR, "Activity doesn't exists.");
         }
     }
 
